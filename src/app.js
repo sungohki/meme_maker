@@ -2,6 +2,7 @@
 // Variables
 const   canvas = document.querySelector("canvas");
 const   ctx = canvas.getContext("2d");      // for painting on <canvas>
+const   myLineWidth = document.querySelector("#line-width");
 const   colors = [
     "#e74c3c",
     "#e67e22",
@@ -18,7 +19,7 @@ let     isPainting = false;
 // Inits
 canvas.width = 600;
 canvas.height = 600;
-ctx.lineWidth = 2;
+ctx.lineWidth = myLineWidth.value;
 
 // Functions
 function onMove(event) {
@@ -27,6 +28,7 @@ function onMove(event) {
         ctx.stroke();
         return ;
     }
+    ctx.beginPath();
     ctx.moveTo(event.offsetX, event.offsetY);
 }
 
@@ -38,8 +40,13 @@ function cancelPainting(event) {
     isPainting = false;
 }
 
+function onLineWidthChange(event) {
+    ctx.lineWidth = event.target.value;
+}
+
 // Events
 canvas.addEventListener("mousemove", onMove);
 canvas.addEventListener("mousedown", startPainting);
 canvas.addEventListener("mouseup", cancelPainting);
 canvas.addEventListener("mouseleave", cancelPainting);
+myLineWidth.addEventListener("change", onLineWidthChange);

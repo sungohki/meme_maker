@@ -7,8 +7,10 @@ const   myLineColor = document.querySelector("#line-color");
 const   myPalette = Array.from(
     document.getElementsByClassName("color-option")
 );
+const   modeBtn = document.querySelector("#mode-btn");
 
 let     isPainting = false;
+let     isFilling = false;
 
 // Inits
 canvas.width = 600;
@@ -25,6 +27,8 @@ myLineColor.addEventListener("change", onColorChanage);
 myPalette.forEach(
     (arg) => arg.addEventListener("click", onColorClick)
 );
+modeBtn.addEventListener("click", onModeClick);
+canvas.addEventListener("click", onCanvasClick);
 
 // Functions
 function onMove(event) {
@@ -38,7 +42,8 @@ function onMove(event) {
 }
 
 function startPainting(event) {
-    isPainting = true;
+    if (!isFilling)
+        isPainting = true;
 }
 
 function cancelPainting(event) {
@@ -54,8 +59,25 @@ function onColorChanage(event) {
     ctx.fillStyle = event.target.value;
 }
 
-function onColorClick(event){
+function onColorClick(event) {
     ctx.strokeStyle = event.target.dataset.color;
     ctx.fillStyle = event.target.dataset.color;
     myLineColor.value = event.target.dataset.color;
+}
+
+function onModeClick(event) {
+    if (isFilling) {
+        isFilling = false;
+        modeBtn.innerText = "Fill";
+    }
+    else {
+        isFilling = true;
+        modeBtn.innerText = "Draw";
+    }
+}
+
+function onCanvasClick(event) {
+    if (isFilling) {
+        ctx.fillRect(0, 0, 600, 600);
+    }
 }

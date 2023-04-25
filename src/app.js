@@ -1,5 +1,8 @@
 
 // Variables
+const   CANVAS_WIDTH = 600;
+const   CANVAS_HEIGHT = 600;
+
 const   canvas = document.querySelector("canvas");
 const   ctx = canvas.getContext("2d");      // for painting on <canvas>
 const   myLineWidth = document.querySelector("#line-width");
@@ -8,13 +11,15 @@ const   myPalette = Array.from(
     document.getElementsByClassName("color-option")
 );
 const   modeBtn = document.querySelector("#mode-btn");
+const   destroyBtn = document.querySelector("#destroy-btn");
+const   eraseBtn = document.querySelector("#erase-btn");
 
 let     isPainting = false;
 let     isFilling = false;
 
 // Inits
-canvas.width = 600;
-canvas.height = 600;
+canvas.width = CANVAS_WIDTH;
+canvas.height = CANVAS_HEIGHT;
 ctx.lineWidth = myLineWidth.value;
 
 // Events
@@ -28,6 +33,8 @@ myPalette.forEach(
     (arg) => arg.addEventListener("click", onColorClick)
 );
 modeBtn.addEventListener("click", onModeClick);
+destroyBtn.addEventListener("click", onDestroyClick);
+eraseBtn.addEventListener("click", onEraseClick);
 canvas.addEventListener("click", onCanvasClick);
 
 // Functions
@@ -78,6 +85,17 @@ function onModeClick(event) {
 
 function onCanvasClick(event) {
     if (isFilling) {
-        ctx.fillRect(0, 0, 600, 600);
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     }
+}
+
+function onDestroyClick(event) {
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+}
+
+function onEraseClick(event) {
+    ctx.strokeStyle = "white";
+    isFilling = false;
+    modeBtn.innerText = "Fill";
 }

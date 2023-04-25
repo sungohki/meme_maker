@@ -1,0 +1,17 @@
+
+/* Tags */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+canvas {
+    width: 600px;
+    height: 600px;
+    border: 2px solid black;
+}
+
+/* Ids */
+
+
+/* Classes */

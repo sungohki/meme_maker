@@ -14,6 +14,7 @@ const   modeBtn = document.querySelector("#mode-btn");
 const   destroyBtn = document.querySelector("#destroy-btn");
 const   eraseBtn = document.querySelector("#erase-btn");
 const   fileInput = document.querySelector("input#file");
+const   textInput = document.querySelector("input#text");
 
 let     isPainting = false;
 let     isFilling = false;
@@ -22,6 +23,7 @@ let     isFilling = false;
 canvas.width = CANVAS_WIDTH;
 canvas.height = CANVAS_HEIGHT;
 ctx.lineWidth = myLineWidth.value;
+ctx.lineCap = "round";
 
 // Events
 canvas.addEventListener("mousemove", onMove);
@@ -38,11 +40,13 @@ destroyBtn.addEventListener("click", onDestroyClick);
 eraseBtn.addEventListener("click", onEraseClick);
 canvas.addEventListener("click", onCanvasClick);
 fileInput.addEventListener("change", onFileChange);
+canvas.addEventListener("dblclick", onDoubleClick);
 
 // Functions
 function onMove(event) {
     if (isPainting) {
         ctx.lineTo(event.offsetX, event.offsetY);
+        // offsetX, offsetY : coordinate of mouse on canvas tag when event happened
         ctx.stroke();
         return ;
     }
@@ -111,4 +115,16 @@ function onFileChange(event) {
         ctx.drawImage(image, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         fileInput.value = null;
     };
+}
+
+function onDoubleClick(event) {
+    const   text = textInput.value;
+    if (text === "")
+        return ;
+    ctx.save();     // save ctx's current status ==> color, style, etc...
+    ctx.lineWidth = 1;
+    ctx.font = "48px serif";
+    ctx.fillText(text, event.offsetX, event.offsetY);
+    // ctx.strokeText(text, event.offsetX, event.offsetY);
+    ctx.restore();  // restore saved status of ctx;
 }

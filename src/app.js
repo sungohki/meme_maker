@@ -15,6 +15,7 @@ const   destroyBtn = document.querySelector("#destroy-btn");
 const   eraseBtn = document.querySelector("#erase-btn");
 const   fileInput = document.querySelector("input#file");
 const   textInput = document.querySelector("input#text");
+const   saveBtn = document.querySelector("button#save");
 
 let     isPainting = false;
 let     isFilling = false;
@@ -41,6 +42,7 @@ eraseBtn.addEventListener("click", onEraseClick);
 canvas.addEventListener("click", onCanvasClick);
 fileInput.addEventListener("change", onFileChange);
 canvas.addEventListener("dblclick", onDoubleClick);
+saveBtn.addEventListener("click", onSaveClick);
 
 // Functions
 function onMove(event) {
@@ -127,4 +129,12 @@ function onDoubleClick(event) {
     ctx.fillText(text, event.offsetX, event.offsetY);
     // ctx.strokeText(text, event.offsetX, event.offsetY);
     ctx.restore();  // restore saved status of ctx;
+}
+
+function onSaveClick(event) {
+    const   url = canvas.toDataURL();     // return img incoded by base64;
+    const   a = document.createElement("a");
+    a.href = url;
+    a.download = "myDrawing.png";
+    a.click();
 }

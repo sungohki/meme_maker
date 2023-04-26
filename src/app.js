@@ -13,6 +13,7 @@ const   myPalette = Array.from(
 const   modeBtn = document.querySelector("#mode-btn");
 const   destroyBtn = document.querySelector("#destroy-btn");
 const   eraseBtn = document.querySelector("#erase-btn");
+const   fileInput = document.querySelector("input#file");
 
 let     isPainting = false;
 let     isFilling = false;
@@ -36,6 +37,7 @@ modeBtn.addEventListener("click", onModeClick);
 destroyBtn.addEventListener("click", onDestroyClick);
 eraseBtn.addEventListener("click", onEraseClick);
 canvas.addEventListener("click", onCanvasClick);
+fileInput.addEventListener("change", onFileChange);
 
 // Functions
 function onMove(event) {
@@ -98,4 +100,15 @@ function onEraseClick(event) {
     ctx.strokeStyle = "white";
     isFilling = false;
     modeBtn.innerText = "Fill";
+}
+
+function onFileChange(event) {
+    const   file = event.target.files[0];
+    const   url = URL.createObjectURL(file);
+    const   image = new Image();
+    image.src = url;
+    image.onload = function() {
+        ctx.drawImage(image, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        fileInput.value = null;
+    };
 }
